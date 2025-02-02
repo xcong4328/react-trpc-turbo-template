@@ -1,11 +1,9 @@
 import { RouterProvider, createRouter } from '@tanstack/react-router';
 
-import { TrpcWrapper } from './components/TrpcWrapper';
+import { TrpcWrapper } from './TrpcWrapper';
 import './index.css';
-import { routeTree } from './routeTree.gen';
 
-const router = createRouter({ routeTree });
-
+import { router } from './router'
 declare module '@tanstack/react-router' {
   interface Register {
     router: typeof router;
