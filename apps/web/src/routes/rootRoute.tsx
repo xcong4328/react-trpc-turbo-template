@@ -1,4 +1,5 @@
 // src/routes/rootRoute.tsx
+import LogoutButton from '@/components/features/auth/logout/Logout'
 import { QueryClient } from '@tanstack/react-query'
 import {
 createRootRouteWithContext,
@@ -36,6 +37,7 @@ return (
         <Link  activeProps={{ className: 'font-bold' }}>
         Invalid
         </Link>
+        <LogoutButton />
     </div>
     <hr />
     <Outlet />

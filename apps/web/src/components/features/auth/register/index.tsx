@@ -2,7 +2,7 @@ import { Box, Button, Container, TextField, Typography } from '@mui/material';
 import { useForm, SubmitHandler } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { trpc } from '@/utils/trpc';
+import { trpc } from '@/TrpcWrapper';
 import React from 'react';
 import { TRPCClientError } from '@trpc/client';
 import CustomSnacker from '@/components/common/Snackbar';
@@ -28,7 +28,6 @@ export default function RegisterComponent() {
     const [errorMessage, setErrorMessage] = React.useState('')
     console.log("⛳️ log ~ LoginComponent log ~ errorMessage: ", errorMessage)
 
-    // const {mutate} = trpc.auth.login.useMutation()
     const registerMutation = trpc.auth.register.useMutation();
 
     const onSubmit: SubmitHandler<Auth> = async (data) => {

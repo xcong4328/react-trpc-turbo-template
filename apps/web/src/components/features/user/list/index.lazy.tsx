@@ -1,27 +1,29 @@
 import { createLazyFileRoute, createLazyRoute } from '@tanstack/react-router';
 
-import { trpc } from '@/utils/trpc';
-// import { useForm, SubmitHandler } from "react-hook-form";
+import { trpc } from '@/TrpcWrapper';
+import { Box, CircularProgress } from '@mui/material';
 
 export const Route = createLazyRoute('/users')({
   component: UserList,
 });
 
 export default function UserList() {
-  const query = trpc.hello.get.useQuery({ name: 'Jonas' });
-     const {data: userList} = trpc.user.list.useQuery()
-  console.log('🪠☎️ log:  userList: ', userList)
-
+    const {data, error, isPending} = trpc.user.list.useQuery()
+    console.log("⛳️ log ~ UserList log ~ error: ", error?.message)
+    // console.log('🪠☎️ log:  userList: ', data)
 
   return (
     <div>
-      <p className="text-xl">Message: {query.data?.message}</p>
+      {isPending && (
+        <Box>
+          <CircularProgress />
+        </Box>
+      )}
+
       <ul>
-        {userList?.users?.map((user) => (
-          <li key={user.id}>
-            {user.name} - {user.email}
+          <li>
+            {data?.user?.name} - {data?.user?.email}
           </li>
-        ))}
       </ul>
     </div>
   );

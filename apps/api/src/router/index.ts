@@ -1,17 +1,13 @@
 import { router } from '@api/trpc';
-import { helloRouter } from '@api/procedures/hello';
 import { createUser } from '../procedures/createUser';
-import { loginRouter } from '../procedures/auth/loginRouter';
 import { getUsers } from '@api/procedures/getUsers';
 import { registerRouter } from '@api/procedures/auth/registerRouter';
+import { authRouter } from '@api/procedures/auth/loginLogoutRouter';
 
 export const appRouter = router({
   auth: {
-    login: loginRouter,
+    loginLogout: authRouter,
     register: registerRouter
-  },
-  hello: {
-    get: helloRouter.get,
   },
   user: {
     create: createUser,

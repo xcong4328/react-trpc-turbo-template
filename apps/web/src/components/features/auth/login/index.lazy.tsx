@@ -3,15 +3,13 @@ import { Box, Button, Container, IconButton, Snackbar, SnackbarCloseReason, Text
 import { useForm, SubmitHandler } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { trpc } from '@/utils/trpc';
 import React from 'react';
-import { TRPCClientError } from '@trpc/client';
-import CloseIcon from '@mui/icons-material/Close';
 import CustomSnacker from '@/components/common/Snackbar';
+import { trpc } from '@/TrpcWrapper';
 
 // Define Zod schema
 const authSchema = z.object({
-  userName: z.string().min(1, "User name is required"),
+  email: z.string().min(1, "Email is required"),
   password: z.string().min(1, "Password is required"),
 });
 
@@ -29,25 +27,22 @@ export default function LoginComponent() {
 
   const [openSnackbar, setOpenSnackbar] = React.useState(false)
   const [errorMessage, setErrorMessage] = React.useState('')
-  console.log("⛳️ log ~ LoginComponent log ~ errorMessage: ", errorMessage)
 
-  // const {mutate} = trpc.auth.login.useMutation()
-  const loginMutation = trpc.auth.login.useMutation();
+  const {mutate} = trpc.auth.loginLogout.login.useMutation({
+    onSuccess(data) {
+      console.log('Login success:', data);
+    },
+    onError(error) {
+      console.error('Login error:', error);
+      setErrorMessage(error.message)
+      setOpenSnackbar(true)
+    },
+  });
+
 
   const onSubmit: SubmitHandler<Auth> = async (data) => {
     console.log(data);
-    // mutate(data)
-    try{
-      const response = await loginMutation.mutateAsync(data);
-      localStorage.setItem("token", response.token)
-      console.log("⛳️ log ~ LoginComponent log ~ response: ", response)
-    }catch(error){
-      if(error instanceof TRPCClientError){
-        console.log("⛳️ log ~ constonSubmit:SubmitHandler<Auth>= log ~ error: ", error.message)
-        setErrorMessage(error.message)
-        setOpenSnackbar(true);
-      }
-    }
+    mutate(data)
   }
 
 
@@ -61,13 +56,13 @@ export default function LoginComponent() {
       >      
       <Box sx={{ width: '100%' }}>
         <TextField
-          {...register("userName")}
+          {...register("email")}
           variant="outlined"
           label="User name"
           sx={{ width: '100%' }}
           autoComplete="new-username"
-          error={!!errors.userName}
-          helperText={errors.userName?.message}
+          error={!!errors.email}
+          helperText={errors.email?.message}
         />
       </Box>
       <Box sx={{ mt: 2 }}>
@@ -86,10 +81,6 @@ export default function LoginComponent() {
         <Button variant="contained" type="submit">Login</Button>
       </Box>
       <CustomSnacker open={openSnackbar} message={errorMessage} onClose={() => setOpenSnackbar(false)} />
-
-      {loginMutation.error && (
-        <Typography color="error">{loginMutation.error.message}</Typography>
-      )}
     </Container>
   );
 }
