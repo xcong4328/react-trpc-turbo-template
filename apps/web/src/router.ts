@@ -5,12 +5,14 @@ import { rootRoute } from './routes/rootRoute'
 import { indexRoute } from './routes/indexRoute'
 import { QueryClient } from '@tanstack/react-query'
 import { usersIndexRoute, usersRoute } from './routes/users/usersRoute'
+import { login, loginRoute } from './routes/auth/authRoute'
 
 const routeTree = rootRoute.addChildren([
   // Posts
   postsRoute.addChildren([postRoute, postsIndexRoute]),
 
   usersRoute.addChildren([usersIndexRoute]),
+  loginRoute.addChildren([login]),
 
   // Layout
   layoutRoute.addChildren([
