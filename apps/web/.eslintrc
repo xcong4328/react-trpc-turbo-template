@@ -1,1 +1,4 @@
-{ "extends": ["@repo/eslint-config/react"] }
+{
+    "extends": ["@repo/eslint-config"],
+    "root": true
+}

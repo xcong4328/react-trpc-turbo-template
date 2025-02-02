@@ -5,10 +5,24 @@ const project = resolve(process.cwd(), 'tsconfig.json');
 /** @type {import("eslint").Linter.Config} */
 module.exports = {
   parser: '@typescript-eslint/parser',
-  extends: ['eslint:recommended', 'plugin:@typescript-eslint/recommended', 'prettier'],
-  plugins: ['@typescript-eslint', 'import', 'unicorn'],
+  extends: [
+    'eslint:recommended',
+    'plugin:@typescript-eslint/recommended',
+    'prettier'
+  ],
+  plugins: [
+    '@typescript-eslint',
+    'import',
+    'unicorn',
+    'unused-imports' // ✅ Add the unused-imports plugin
+  ],
   rules: {
-    '@typescript-eslint/no-unused-vars': 'error',
+    '@typescript-eslint/no-unused-vars': 'off', // Disable default rule
+    'unused-imports/no-unused-imports': 'warn', // ✅ Auto remove unused imports
+    'unused-imports/no-unused-vars': [
+      'warn',
+      { "vars": "all", "varsIgnorePattern": "^_", "args": "after-used", "argsIgnorePattern": "^_" }
+    ],
     '@typescript-eslint/no-explicit-any': 'error',
     'import/first': 'error',
     'import/newline-after-import': 'error',
