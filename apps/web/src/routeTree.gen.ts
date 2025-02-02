@@ -19,6 +19,7 @@ import { Route as UsersUsersRouteImport } from './routes/users/usersRoute'
 import { Route as PostsPostsRouteImport } from './routes/posts/postsRoute'
 import { Route as PostsPostsIndexRouteComponentImport } from './routes/posts/postsIndexRouteComponent'
 import { Route as LayoutLayoutRouteImport } from './routes/layout/_layoutRoute'
+import { Route as AuthRegisterRouteImport } from './routes/auth/registerRoute'
 import { Route as AuthAuthRouteImport } from './routes/auth/authRoute'
 
 // Create Virtual Routes
@@ -69,6 +70,11 @@ const LayoutLayoutRouteRoute = LayoutLayoutRouteImport.update({
   getParentRoute: () => LayoutRoute,
 } as any)
 
+const AuthRegisterRouteRoute = AuthRegisterRouteImport.update({
+  path: '/auth/registerRoute',
+  getParentRoute: () => rootRoute,
+} as any)
+
 const AuthAuthRouteRoute = AuthAuthRouteImport.update({
   path: '/auth/authRoute',
   getParentRoute: () => rootRoute,
@@ -97,6 +103,13 @@ declare module '@tanstack/react-router' {
       path: '/auth/authRoute'
       fullPath: '/auth/authRoute'
       preLoaderRoute: typeof AuthAuthRouteImport
+      parentRoute: typeof rootRoute
+    }
+    '/auth/registerRoute': {
+      id: '/auth/registerRoute'
+      path: '/auth/registerRoute'
+      fullPath: '/auth/registerRoute'
+      preLoaderRoute: typeof AuthRegisterRouteImport
       parentRoute: typeof rootRoute
     }
     '/layout': {
@@ -150,6 +163,7 @@ export const routeTree = rootRoute.addChildren({
   IndexRouteRoute,
   RootRouteRoute,
   AuthAuthRouteRoute,
+  AuthRegisterRouteRoute,
   LayoutRoute: LayoutRoute.addChildren({}),
   PostsPostsIndexRouteComponentRoute,
   PostsPostsRouteRoute,
@@ -167,6 +181,7 @@ export const routeTree = rootRoute.addChildren({
         "/indexRoute",
         "/rootRoute",
         "/auth/authRoute",
+        "/auth/registerRoute",
         "/layout",
         "/posts/postsIndexRouteComponent",
         "/posts/postsRoute",
@@ -182,6 +197,9 @@ export const routeTree = rootRoute.addChildren({
     },
     "/auth/authRoute": {
       "filePath": "auth/authRoute.tsx"
+    },
+    "/auth/registerRoute": {
+      "filePath": "auth/registerRoute.tsx"
     },
     "/layout": {
       "filePath": "layout",

@@ -1,4 +1,5 @@
 import { publicProcedure } from '@api/trpc';
+import { prisma } from '@repo/database/src/db';
 import { TRPCError } from '@trpc/server';
 import { z } from 'zod';
 
@@ -15,6 +16,11 @@ const fakeUsrs = [
 export const loginRouter = publicProcedure
     .input(authSchema)
     .mutation(async ({ input }) => {
+        const users = await prisma.user.findMany()
+        // const users = await prisma.user.findMany();
+
+        console.log("⛳️ log ~ .mutation log ~ users: ", users)
+
         const { userName, password } = input;
 
         const user = fakeUsrs.find(u=>u.userName === userName  && u.password === password)
